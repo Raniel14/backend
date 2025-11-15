@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: bleutech-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        fromDatabase:
+          name: bleutech-mongo
+          property: connectionString
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    
+  - type: pserv
+    name: bleutech-mongo
+    env: mongodb
+    plan: free
+    ipAllowList: []

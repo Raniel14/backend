@@ -1,0 +1,10 @@
+{
+  "build": {
+    "base": ".",
+    "dir": "frontend",
+    "command": "echo 'Static site - no build step needed'"
+  },
+  "functions": {
+    "directory": "functions"
+  }
+}
