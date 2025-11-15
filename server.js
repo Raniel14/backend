@@ -50,6 +50,9 @@ const upload = multer({ storage });
 const User = require('./models/user');
 const Product = require('./models/product');
 
+// Mongoose configuration
+mongoose.set('strictQuery', false);
+
 // Connect DB
 const MONGO = process.env.MONGO_URI || 'mongodb+srv://raniel:raniel1432@raniel.skzmuxw.mongodb.net/MarineBlue';
 console.log('Connecting to MongoDB:', MONGO);
