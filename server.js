@@ -171,14 +171,34 @@ app.post('/api/orders', async (req, res) => {
   res.json({ message: 'Order received', order: req.body });
 });
 
-// Serve index.html for root and undefined routes
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'Backend API is running', timestamp: new Date().toISOString() });
 });
 
-// Catch-all for client-side routing
+// Root endpoint - API info
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'BlueTech Backend API',
+    version: '1.0',
+    endpoints: {
+      auth: ['/api/auth/signup', '/api/auth/login'],
+      products: ['/api/products', '/api/products/:id'],
+      users: ['/api/users', '/api/users/:id'],
+      orders: ['/api/orders'],
+      health: '/health'
+    }
+  });
+});
+
+// Catch-all for frontend (if available)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
+  const frontendPath = path.join(__dirname, '../frontend', 'index.html');
+  if (fs.existsSync(frontendPath)) {
+    res.sendFile(frontendPath);
+  } else {
+    res.status(404).json({ message: 'Not found' });
+  }
 });
 
 const PORT = process.env.PORT || 5000;
