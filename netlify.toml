@@ -1,0 +1,25 @@
+[build]
+command = "echo 'No build step needed for static frontend'"
+publish = "frontend"
+base = "."
+
+[context.production]
+environment = { API_URL = "" }
+
+[context.preview]
+environment = { API_URL = "" }
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+[[headers]]
+for = "/*"
+[headers.values]
+Cache-Control = "public, max-age=3600"
+
+[[headers]]
+for = "/*.html"
+[headers.values]
+Cache-Control = "public, max-age=0, must-revalidate"
