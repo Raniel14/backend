@@ -170,12 +170,12 @@ app.post('/api/orders', async (req, res) => {
 
 // Serve index.html for root and undefined routes
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../forntend', 'index.html'));
+  res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
 });
 
 // Catch-all for client-side routing
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../forntend', 'index.html'));
+  res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
