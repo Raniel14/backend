@@ -55,10 +55,25 @@ mongoose.set('strictQuery', false);
 
 // Connect DB
 const MONGO = process.env.MONGO_URI || 'mongodb+srv://raniel:raniel1432@raniel.skzmuxw.mongodb.net/MarineBlue';
-console.log('Connecting to MongoDB:', MONGO);
+console.log('Connecting to MongoDB with URI:', MONGO.substring(0, 50) + '...');
 mongoose.connect(MONGO, { useNewUrlParser: true, useUnifiedTopology: true })
-.then(()=> console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err.message));
+.then(()=> {
+  console.log('✅ MongoDB connected successfully');
+})
+.catch(err => {
+  console.error('❌ MongoDB connection error:', err.message);
+  console.error('Connection URI:', MONGO);
+  process.exit(1); // Exit if DB connection fails
+});
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Auth endpoints
 app.post('/api/auth/signup', async (req, res) => {
